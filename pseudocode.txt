@@ -1,0 +1,46 @@
+START
+READ AND WRITE subtotal, total, diskon, bayar, kembali AS INTEGER
+READ AND WRITE harga_barang, jumlah_barang AS INTEGER
+READ AND WRITE kode_barang, nama_barang AS STRING
+READ AND WRITE daftar_barang AS ARRAY OF STRING
+SET daftar_barang = ["B001|Sabun mandi|5000", "B002|Shampoo|7000", "B003|Odol|8000"]
+
+WHILE True DO
+    PRINT "DAFTAR BARANG:"
+    FOR barang IN daftar_barang DO
+        kode_barang, nama_barang, harga_barang = barang.split("|")
+        PRINT kode_barang + " - " + nama_barang + " (" + harga_barang + ")"
+    END FOR
+
+    INPUT "Masukkan kode barang: ", kode_barang
+    INPUT "Masukkan jumlah barang: ", jumlah_barang
+
+    FOR barang IN daftar_barang DO
+        IF kode_barang == barang.split("|")[0] THEN
+            nama_barang, harga_barang = barang.split("|")[1], barang.split("|")[2]
+            subtotal = harga_barang * jumlah_barang
+            EXIT FOR
+        END IF
+    END FOR
+
+    total = total + subtotal
+
+    INPUT "Tambah barang lagi? (y/n)", pilihan
+    IF pilihan == "n" THEN
+        EXIT WHILE
+    END IF
+END WHILE
+
+IF total >= 50000 THEN
+    diskon = total * 0.1
+    total = total - diskon
+END IF
+
+PRINT "Total harga: " + total
+
+INPUT "Jumlah uang yang dibayarkan: ", bayar
+
+kembali = bayar - total
+
+PRINT "Kembali: " + kembali
+END
